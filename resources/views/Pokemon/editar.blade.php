@@ -24,7 +24,7 @@
         </div>
         <div class="row justify-content-center">
             
-        <form class="col-md-6"  method="POST" enctype="multipart/form-data"> 
+        <form class="col-md-6"  method="POST" action="{{ action('PokemonController@actualizar', $content->id) }}" enctype="multipart/form-data"> 
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -42,30 +42,31 @@
             @csrf
                 <div class="form-group">
                     <label for="name">Nombre</label>
-                    <input type="text" name="name"class="form-control" id="name" placeholder="Ingresa un nombre para tu pokemon">
+                <input type="text" name="name"class="form-control" id="name" placeholder="Ingresa un nombre para tu pokemon" value="{{ $content->name}}">
                 </div>
                 <div class="form-group">
                     <label for="peso">Peso</label>
-                    <input type="text" name="weight"class="form-control" id="peso" placeholder="¿Cuanto Pesa?">
+                    <input type="text" name="weight"class="form-control" id="peso" placeholder="¿Cuanto Pesa?" value="{{ $content->weight}}">
                 </div>
                 <div class="form-group">
                     <label for="altura">Altura</label>
-                    <input type="text" name="height"class="form-control" id="altura" placeholder="¿Cuanto Mide?">
+                    <input type="text" name="height"class="form-control" id="altura" placeholder="¿Cuanto Mide?" value="{{ $content->height}}">
                 </div>
                 <label for="tipo">Tipo</label>
                 <div class="form-group  d-flex flex-wrap">
-                    
                     @foreach (App\Type::all() as $type)
-                    
-                    <div class="w-25">
-                        <input class="col-md-3"type="checkbox" name="type[]" value="{{$type->id}}">{{$type->name}}
-                        <br>
-                    </div>
+                        <div class="w-25">
+                            <input class="col-md-3"type="checkbox" name="type[]" @if(in_array($type->id, $content->types()->pluck('type_id')->toArray())) checked="checked" @endif  value="{{$type->id}}">{{$type->name}}
+                            <br>
+                        </div>
                     @endforeach
                 </div>
                 <div class="form-group">
                     <label for="foto">Imagen del Pokemon</label>
                     <input type="file" name="foto" id="">
+                    @if(file_exists($content->getImgPath()))
+                        <img src="{{$content->getImgUrl()}}">
+                    @endif
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

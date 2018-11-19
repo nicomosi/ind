@@ -31,4 +31,9 @@ class TypeController extends Controller
         return view('Type.show')->with('tipo',$tipo);
     }
 
+    public function selectType(){
+        $types=Type::All();
+
+        return view('Pokemon.create', compact('tipos'));
+    }
 }

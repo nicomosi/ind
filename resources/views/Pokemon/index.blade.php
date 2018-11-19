@@ -15,35 +15,42 @@
 </head>
 <body>
     <h1>Pokelist</h1>
-    <div class="container">
-        <div class="row justify-content-center ">
-            @foreach ($pokemones as $pokemon)
-            {{-- {{dd($pokemon->image)}} --}}
-            <div class="card ">
-                
-                <img src="{{$pokemon->image}}" alt="John" style="width:100%">
-                <h3>{{$pokemon->name}}</h3>
-                <div class="card-data">
-                    Peso: {{$pokemon->weight}}<small><strong> kg</strong></small>
-                    <br>
-                    Altura: {{$pokemon->height}}<small><strong> m</strong></small>
-                    <br>
-                    <span class="badge {{$pokemon->type_alert}}">
-                        @if ($pokemon->type_id==9)
-                            Fuego
-                        @elseif($pokemon->type_id==11)
-                            Planta
-                        @else 
-                            Agua 
-                        @endif
-                    </span>
+        <div class="container plus-minus">
+                <div class="row justify-content-center">
+                <a href="/pokemon/nuevo"><i class="fas fa-plus"></i> Agregar Pokemon</a>
+                    {{-- <a href=""><i class="fas fa-minus"></i></a> --}}
                 </div>
-                <i  class="fas fa-info-circle" title="Más Información" href="/"></i>
+        </div>
+        <main>
+        <div class="container">
+            <div class="row justify-content-center ">
+                @foreach ($pokemones as $pokemon)
+                {{-- {{dd($pokemon->image)}} --}}
+                <div class="card ">
+                    @if(file_exists($pokemon->getImgPath()))
+                        <img src="{{$pokemon->getImgUrl()}}" alt="{{$pokemon->name}}" style="width:100%">
+                    @endif
+                    <h3>{{$pokemon->name}}</h3>
+                    <div class="card-data">
+                        Peso: {{$pokemon->weight}}<small><strong> kg</strong></small>
+                        <br>
+                        Altura: {{$pokemon->height}}<small><strong> m</strong></small>
+                        <br>
+                        @if($pokemon->types)
+                            @foreach ($pokemon->types as $item)
+                                <span class="badge {{$pokemon->type_alert}}">
+                                    {{ ucfirst($item->name) }}
+                                </span>
+                            @endforeach
+                        @endif
+                    </div>
+                <a href="{{'/pokemon'.'/'.$pokemon->id}}"> <i  class="fas fa-info-circle" title="Más Información" ></i></a>
+                </div> {{-- route('pokemon.uno',['pokemon' => $pokemon->id]) --}}
+                
+            @endforeach
             </div>
             
-        @endforeach
-
-    </div>
-</div>
+        </div>
+        </main>
 </body>
 </html>

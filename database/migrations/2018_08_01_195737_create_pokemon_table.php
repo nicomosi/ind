@@ -19,10 +19,10 @@ class CreatePokemonTable extends Migration
             $table->string('name');
             $table->decimal('weight', 6, 2);
             $table->decimal('height', 6, 2);
-            $table->tinyinteger('type_id');
+            // $table->tinyinteger('type_id');
             $table->integer('evolves')->nullable();
-            $table->string('image');
-            $table->string('type_alert');
+            $table->string('foto');
+            // $table->string('type_alert');
 
             $table->timestamps();
         });
